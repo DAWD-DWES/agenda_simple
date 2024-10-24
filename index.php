@@ -4,10 +4,10 @@ define('TELEFONO_INVALIDO', '**Teléfono inválido');
 
 if (filter_has_var(INPUT_POST, 'enviar')) {
     $agenda = (filter_input(INPUT_POST, 'agenda', FILTER_UNSAFE_RAW, FILTER_REQUIRE_ARRAY)) ?? array();
-    $nombre = ucwords(strtolower(trim(filter_input(INPUT_POST, 'nombre', FILTER_UNSAFE_RAW))));
+    $nombre = ucwords(strtolower(trim(filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_SPECIAL_CHARS))));
     $nombreErr = filter_var($nombre, FILTER_VALIDATE_REGEXP,
                     ['options' => ['regexp' => "/^[a-z A-Záéíóúñ]{3,25}$/"]]) === false;
-    $telefono = trim(filter_input(INPUT_POST, 'telefono', FILTER_UNSAFE_RAW));
+    $telefono = trim(filter_input(INPUT_POST, 'telefono', FILTER_SANITIZE_SPECIAL_CHARS));
     $telefonoErr = !empty($telefono) && filter_var($telefono, FILTER_VALIDATE_REGEXP,
                     ['options' => ['regexp' => "/^\+?[0-9]{9,15}$/"]]) === false;
     $error = $nombreErr || $telefonoErr;
