@@ -7,14 +7,17 @@ if (filter_has_var(INPUT_POST, 'enviar')) {
     $nombre = ucwords(strtolower(trim(filter_input(INPUT_POST, 'nombre', FILTER_UNSAFE_RAW))));
     $nombreErr = filter_var($nombre, FILTER_VALIDATE_REGEXP,
                     ['options' => ['regexp' => "/^[a-z A-Záéíóúñ]{3,25}$/"]]) === false;
-    $telefono = trim(filter_input(INPUT_POST, 'telefono', FILTER_SANITIZE_NUMBER_INT));
+    $telefono = trim(filter_input(INPUT_POST, 'telefono', FILTER_UNSAFE_RAW));
     $telefonoErr = !empty($telefono) && filter_var($telefono, FILTER_VALIDATE_REGEXP,
                     ['options' => ['regexp' => "/^\+?[0-9]{9,15}$/"]]) === false;
-    if (!empty($nombre)) {
-        if (empty($telefono)) {
-            unset($agenda[$nombre]);
-        } else {
-            $agenda[$nombre] = $telefono;
+    $error = $nombreErr || $telefonoErr;
+    if (!$error) {
+        if (!empty($nombre)) {
+            if (empty($telefono)) {
+                unset($agenda[$nombre]);
+            } else {
+                $agenda[$nombre] = $telefono;
+            }
         }
     }
 } else if (filter_has_var(INPUT_GET, 'limpiar')) {
@@ -48,14 +51,14 @@ if (filter_has_var(INPUT_POST, 'enviar')) {
                 <legend>Nuevo Contacto:</legend>
                 <div class="form-section">
                     <label for="nombre">Nombre:</label>
-                    <input id="nombre" type="text" name="nombre">
+                    <input id="nombre" type="text" name="nombre" <?= ($error ?? false) ? "value=" . htmlspecialchars($nombre ?? '') : '' ?>>
                     <span class="error <?= ($nombreErr ?? false) ? 'error-visible' : '' ?>">
                         <?= NOMBRE_INVALIDO ?>
                     </span>                       
                 </div>
                 <div class="form-section">
                     <label for="telefono">Teléfono:</label>
-                    <input type="text" name="telefono" id="telefono">
+                    <input type="text" name="telefono" id="telefono" <?= ($error ?? false) ? "value=" . htmlspecialchars($telefono ?? '') : '' ?>>
                     <span class="error <?= ($telefonoErr ?? false) ? 'error-visible' : '' ?>">
                         <?= TELEFONO_INVALIDO ?>
                     </span>
