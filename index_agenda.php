@@ -1,22 +1,12 @@
 <?php
-define('NOMBRE_INVALIDO', '**Nombre inválido');
-define('TELEFONO_INVALIDO', '**Teléfono inválido');
-
 if (filter_has_var(INPUT_POST, 'enviar_contacto')) {
     $agenda = (filter_input(INPUT_POST, 'agenda', FILTER_UNSAFE_RAW, FILTER_REQUIRE_ARRAY)) ?? array();
     $nombre = trim(filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_SPECIAL_CHARS));
-    $nombreErr = filter_var($nombre, FILTER_VALIDATE_REGEXP,
-                    ['options' => ['regexp' => "/^[a-z A-Záéíóúñ]{3,25}$/"]]) === false;
     $telefono = trim(filter_input(INPUT_POST, 'telefono', FILTER_SANITIZE_SPECIAL_CHARS));
-    $telefonoErr = !empty($telefono) && filter_var($telefono, FILTER_VALIDATE_REGEXP,
-                    ['options' => ['regexp' => "/^\+?[0-9]{9,15}$/"]]) === false;
-    $error = $nombreErr || $telefonoErr;
-    if (!$error) {
-        if (empty($telefono)) {
-            unset($agenda[ucwords(strtolower($nombre))]);
-        } else {
-            $agenda[ucwords(strtolower($nombre))] = $telefono;
-        }
+    if (empty($telefono)) {
+        unset($agenda[ucwords(strtolower($nombre))]);
+    } else {
+        $agenda[ucwords(strtolower($nombre))] = $telefono;
     }
 } else if (filter_has_var(INPUT_GET, 'limpiar')) {
     $agenda = [];
@@ -49,17 +39,11 @@ if (filter_has_var(INPUT_POST, 'enviar_contacto')) {
                 <legend>Nuevo Contacto:</legend>
                 <div class="form-section">
                     <label for="nombre">Nombre:</label>
-                    <input id="nombre" type="text" name="nombre" value="<?= ($error ?? false) ? $nombre : '' ?>" >
-                    <span class="error <?= ($nombreErr ?? false) ? 'error-visible' : '' ?>">
-                        <?= NOMBRE_INVALIDO ?>
-                    </span>                       
+                    <input id="nombre" type="text" name="nombre" />
                 </div>
                 <div class="form-section">
                     <label for="telefono">Teléfono:</label>
-                    <input type="text" name="telefono" id="telefono" value="<?= ($error ?? false) ? $telefono : '' ?>" >
-                    <span class="error <?= ($telefonoErr ?? false) ? 'error-visible' : '' ?>">
-                        <?= TELEFONO_INVALIDO ?>
-                    </span>
+                    <input type="text" name="telefono" id="telefono" />
                 </div>                       
                 <div class="form-section">
                     <input class="submit blue" type="submit" value="Añadir Contacto" name='enviar_contacto'/>
