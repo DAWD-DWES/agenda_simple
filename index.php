@@ -18,7 +18,7 @@ if (filter_has_var(INPUT_POST, 'enviar_contacto')) {
             $agenda[ucwords(strtolower($nombre))] = $telefono;
         }
     }
-} else if (filter_has_var(INPUT_GET, 'limpiar')) {
+} else if (filter_has_var(INPUT_POST, 'limpiar')) {
     $agenda = [];
 }
 ?>
@@ -31,10 +31,11 @@ if (filter_has_var(INPUT_POST, 'enviar_contacto')) {
         <title>Agenda</title>
     </head>
     <body>
-        <form class="agenda" action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">     
+        <form class="agenda" action="<?= $_SERVER['PHP_SELF'] ?>" method="POST" novalidate>     
             <h1>Agenda</h1>
             <fieldset>
                 <legend>Datos Agenda:</legend>
+                <!-- Incluyo los datos de la agenda ocultos -->
                 <?php if (empty($agenda)): ?>
                     <p>La agenda está vacía</p>
                 <?php else: ?>
@@ -49,28 +50,29 @@ if (filter_has_var(INPUT_POST, 'enviar_contacto')) {
                 <legend>Nuevo Contacto:</legend>
                 <div class="form-section">
                     <label for="nombre">Nombre:</label>
-                    <input id="nombre" type="text" name="nombre" value="<?= ($error ?? false) ? $nombre : '' ?>" >
+                    <input type="text" id="nombre" name="nombre" value="<?= ($error ?? false) ? $nombre : '' ?>">
                     <span class="error <?= ($nombreErr ?? false) ? 'error-visible' : '' ?>">
                         <?= NOMBRE_INVALIDO ?>
                     </span>                       
                 </div>
                 <div class="form-section">
                     <label for="telefono">Teléfono:</label>
-                    <input type="text" name="telefono" id="telefono" value="<?= ($error ?? false) ? $telefono : '' ?>" >
+                    <input type="text" id="telefono" name="telefono" value="<?= ($error ?? false) ? $telefono : '' ?>">
                     <span class="error <?= ($telefonoErr ?? false) ? 'error-visible' : '' ?>">
                         <?= TELEFONO_INVALIDO ?>
                     </span>
                 </div>                       
                 <div class="form-section">
-                    <input class="submit blue" type="submit" value="Añadir Contacto" name='enviar_contacto'/>
+                    <input class="submit blue" type="submit" value="Añadir Contacto" name="enviar_contacto">
                     <input class="submit green" type="reset" value="Limpiar Campos"/>
                 </div>
             </fieldset>
+            <!-- Si la agenda no está vacía -->
             <?php if (!empty($agenda)): ?>
                 <fieldset>
                     <legend>Vaciar Agenda</legend>
-                    <a class="submit red button" href="<?= "{$_SERVER['PHP_SELF']}?limpiar=1" ?>">Vaciar</a>
-                <!--    <input class="submit red" type="submit" formaction="<?= "{$_SERVER['PHP_SELF']}?limpiar=1" ?>"  value="Vaciar"> -->
+                <!--   <a class="submit red button" href="<?= "{$_SERVER['PHP_SELF']}?limpiar=1" ?>">Vaciar</a> -->
+                    <input type="submit" class="submit red" name="limpiar"  value="Vaciar">
                 </fieldset>
             <?php endif ?>
         </form>
