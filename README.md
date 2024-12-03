@@ -12,6 +12,8 @@ a ese  nombre se borra de la agenda
 3. Vaciar la agenda
 Se puede solicitar a la aplicación que se vacíe la agenda completa.
 A continuación, se muestran distintas imágenes de la apariencia de la aplicación.
+
+
 ![agenda_vacia](/img/agenda_vacia.png)
 
 
