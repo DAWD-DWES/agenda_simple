@@ -1,5 +1,5 @@
 <?php
-if (filter_has_var(INPUT_POST, 'enviar_contacto')) {
+if (filter_has_var(INPUT_POST, 'crear_contacto')) {
     $agenda = (filter_input(INPUT_POST, 'agenda', FILTER_UNSAFE_RAW, FILTER_REQUIRE_ARRAY)) ?? array();
     $nombre = trim(filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_SPECIAL_CHARS));
     $telefono = trim(filter_input(INPUT_POST, 'telefono', FILTER_SANITIZE_SPECIAL_CHARS));
@@ -26,6 +26,7 @@ if (filter_has_var(INPUT_POST, 'enviar_contacto')) {
             <fieldset>
                 <legend>Datos Agenda:</legend>
                 <!-- Incluyo los datos de la agenda ocultos -->
+                <!-- Mostrar el contenido de la agenda -->
                 <?php if (empty($agenda)): ?>
                     <p>La agenda está vacía</p>
                 <?php else: ?>
@@ -47,7 +48,7 @@ if (filter_has_var(INPUT_POST, 'enviar_contacto')) {
                     <input type="text" id="telefono" name="telefono">
                 </div>                       
                 <div class="form-section">
-                    <input class="submit blue" type="submit" value="Añadir Contacto" name="enviar_contacto">
+                    <input class="submit blue" type="submit" value="Añadir Contacto" name="crear_contacto">
                     <input class="submit green" type="reset" value="Limpiar Campos">
                 </div>
             </fieldset>

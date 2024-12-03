@@ -2,7 +2,7 @@
 define('NOMBRE_INVALIDO', '**Nombre inválido');
 define('TELEFONO_INVALIDO', '**Teléfono inválido');
 
-if (filter_has_var(INPUT_POST, 'enviar_contacto')) {
+if (filter_has_var(INPUT_POST, 'crear_contacto')) {
     $agenda = (filter_input(INPUT_POST, 'agenda', FILTER_UNSAFE_RAW, FILTER_REQUIRE_ARRAY)) ?? array();
     $nombre = trim(filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_SPECIAL_CHARS));
     $nombreErr = filter_var($nombre, FILTER_VALIDATE_REGEXP,
@@ -63,7 +63,7 @@ if (filter_has_var(INPUT_POST, 'enviar_contacto')) {
                     </span>
                 </div>                       
                 <div class="form-section">
-                    <input class="submit blue" type="submit" value="Añadir Contacto" name="enviar_contacto">
+                    <input class="submit blue" type="submit" value="Añadir Contacto" name="crear_contacto">
                     <input class="submit green" type="reset" value="Limpiar Campos"/>
                 </div>
             </fieldset>

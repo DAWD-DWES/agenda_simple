@@ -12,6 +12,7 @@
             <fieldset>
                 <legend>Datos Agenda:</legend>
             <!-- Incluyo los datos de la agenda ocultos -->
+            <!--  Mostrar el contenido de la agenda -->
             </fieldset>
             <!-- Creamos el formulario de introducción de un nuevo contacto -->
             <fieldset>
@@ -25,7 +26,7 @@
                     <input type="text" id="telefono" name="telefono">
                 </div>                       
                 <div class="form-section">
-                    <input class="submit blue" type="submit" value="Añadir Contacto" name="enviar_contacto">
+                    <input class="submit blue" type="submit" value="Añadir Contacto" name="crear_contacto">
                     <input class="submit green" type="reset" value="Limpiar Campos">
                 </div>
             </fieldset>
